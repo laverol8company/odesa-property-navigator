@@ -165,9 +165,10 @@ export default function PropertyMatchAssistant() {
       key: "features",
       render: () => (
         <Question title={t("ma.q.features")}>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5">
             {(["seaview","parking","balcony","renovation","newBuild","furnished","elevator"] as FeatureKey[]).map((f) => {
               const sel = a.features.includes(f);
+              const label = f === "newBuild" ? t("badge.newBuild") : t(`feat.${f}`);
               return (
                 <button
                   key={f}
@@ -177,15 +178,14 @@ export default function PropertyMatchAssistant() {
                       features: sel ? a.features.filter((x) => x !== f) : [...a.features, f],
                     })
                   }
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition ${
+                  className={`rounded-full border px-5 py-3 text-sm font-medium transition ${
                     sel
                       ? "border-[hsl(var(--teal))] bg-[hsl(var(--teal))] text-white"
                       : "border-border bg-card hover:border-primary/40"
                   }`}
                 >
                   {sel && <Check className="mr-1 inline h-3.5 w-3.5" />}
-                  {t(`feat.${f === "newBuild" ? "renovation" : f}`) /* fallback safety */}
-                  {/* real label below overrides */}
+                  {label}
                 </button>
               );
             })}
