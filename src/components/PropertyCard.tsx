@@ -23,7 +23,7 @@ export default function PropertyCard({ p, why }: { p: Property; why?: string }) 
   )}`;
 
   return (
-    <article className="group card-surface overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <article className="group card-surface overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl flex flex-col">
       <Link to={`/properties/${p.id}`} className="relative block aspect-[4/3] overflow-hidden bg-secondary">
         <img
           src={p.images[0]}
@@ -60,7 +60,7 @@ export default function PropertyCard({ p, why }: { p: Property; why?: string }) 
         </button>
       </Link>
 
-      <div className="flex flex-col p-5">
+      <div className="flex flex-col flex-1 p-5">
         <div className="flex items-start justify-between gap-3">
           <p className="font-display text-2xl font-extrabold text-primary tracking-tight">{formatPrice(p, locale)}</p>
           <span className="mt-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground bg-secondary/50 px-2 py-1 rounded-md">
@@ -101,6 +101,7 @@ export default function PropertyCard({ p, why }: { p: Property; why?: string }) 
           </div>
         )}
 
+        <div className="flex-1" />
         <div className="mt-5 flex items-stretch gap-2">
           <Link
             to={`/properties/${p.id}`}

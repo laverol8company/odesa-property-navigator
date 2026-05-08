@@ -33,13 +33,13 @@ export default function Header() {
         scrolled ? "border-border bg-background/85 backdrop-blur-md" : "border-transparent bg-background"
       }`}
     >
-      <div className="container mx-auto container-px flex h-16 items-center justify-between gap-4">
+      <div className="container mx-auto container-px flex h-16 items-center justify-between gap-2 overflow-hidden">
         <Link to="/" className="flex items-center gap-2 font-display text-base font-bold tracking-tight text-primary">
           <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">G</span>
           <span className="hidden sm:inline whitespace-nowrap">General Real Estate</span>
         </Link>
 
-        <nav className="hidden xl:flex items-center gap-2">
+        <nav className="hidden xl:flex items-center gap-1 min-w-0 flex-shrink">
           {links.map((l) =>
             l.action ? (
               <button
@@ -65,7 +65,7 @@ export default function Header() {
           )}
         </nav>
 
-        <div className="hidden xl:flex items-center gap-3">
+        <div className="hidden xl:flex items-center gap-2 shrink-0">
           <LangSwitcher locale={locale} setLocale={setLocale} />
           <button onClick={openAssistant} className="btn-primary whitespace-nowrap">
             <Search className="h-4 w-4" /> {t("cta.findProperty")}
@@ -149,7 +149,7 @@ function LangSwitcher({ locale, setLocale }: { locale: Locale; setLocale: (l: Lo
           key={l.code}
           onClick={() => setLocale(l.code)}
           aria-label={`${l.label} language`}
-          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+          className={`flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
             locale === l.code
               ? "bg-primary text-primary-foreground shadow-md scale-100"
               : "text-foreground/70 hover:bg-secondary hover:text-foreground hover:scale-105"
