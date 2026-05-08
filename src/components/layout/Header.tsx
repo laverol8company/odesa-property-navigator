@@ -33,7 +33,7 @@ export default function Header() {
         scrolled ? "border-border bg-background/85 backdrop-blur-md" : "border-transparent bg-background"
       }`}
     >
-      <div className="container mx-auto container-px flex h-16 items-center justify-between gap-2 overflow-hidden">
+      <div className="container mx-auto container-px flex h-16 items-center justify-between gap-2">
         <Link to="/" className="flex items-center gap-2 font-display text-base font-bold tracking-tight text-primary">
           <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">G</span>
           <span className="hidden sm:inline whitespace-nowrap">General Real Estate</span>
