@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Filter, X, ChevronDown, SlidersHorizontal } from "lucide-react";
+import { Filter, X, ChevronDown, SlidersHorizontal, Search } from "lucide-react";
 import { useLang } from "@/lib/LanguageContext";
 import {
   PROPERTIES, ALL_DISTRICTS, ALL_TYPES, DistrictKey, PropertyType, DealType,
@@ -80,7 +80,7 @@ export default function Properties() {
                   <select
                     value={sort}
                     onChange={(e) => setSort(e.target.value as SortKey)}
-                    className="appearance-none rounded-md border border-input bg-card py-2 pl-3 pr-8 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    className="appearance-none rounded-lg border border-border bg-card py-2 pl-4 pr-10 text-sm font-semibold shadow-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer hover:border-primary/40"
                   >
                     <option value="newest">{t("sort.newest")}</option>
                     <option value="priceAsc">{t("sort.priceAsc")}</option>
@@ -88,7 +88,7 @@ export default function Properties() {
                     <option value="areaDesc">{t("sort.areaDesc")}</option>
                     <option value="relevant">{t("sort.relevant")}</option>
                   </select>
-                  <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary" />
                 </div>
               </div>
             </div>
@@ -99,25 +99,28 @@ export default function Properties() {
                   <button
                     key={c.id}
                     onClick={() => update(c.remove)}
-                    className="chip-active gap-1 hover:opacity-80"
+                    className="chip-active gap-1.5 hover:opacity-80 hover:bg-[hsl(var(--teal))]/20 transition-colors shadow-sm"
                   >
                     {c.label}
-                    <X className="h-3 w-3" />
+                    <X className="h-3.5 w-3.5 bg-white/50 rounded-full p-0.5 text-[hsl(var(--teal))]" />
                   </button>
                 ))}
-                <button onClick={reset} className="text-xs font-semibold text-muted-foreground underline-offset-2 hover:underline">
+                <button onClick={reset} className="text-xs font-bold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline transition-colors ml-2">
                   {t("cta.resetAll")}
                 </button>
               </div>
             )}
 
             {filtered.length === 0 ? (
-              <div className="card-surface p-10 text-center">
-                <SlidersHorizontal className="mx-auto h-8 w-8 text-muted-foreground" />
-                <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">{t("props.empty")}</p>
-                <div className="mt-5 flex justify-center gap-3">
+              <div className="card-surface p-12 text-center shadow-sm animate-fade-in">
+                <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-secondary text-primary">
+                  <Search className="h-8 w-8" />
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold text-primary">{t("props.empty").split(".")[0]}.</h3>
+                <p className="mx-auto mt-2 max-w-md text-[15px] text-muted-foreground">{t("props.empty").split(".")[1]}</p>
+                <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <button onClick={reset} className="btn-outline">{t("cta.resetAll")}</button>
-                  <button onClick={openAssistant} className="btn-primary">{t("cta.findProperty")}</button>
+                  <button onClick={openAssistant} className="btn-primary shadow-lg shadow-primary/20">{t("cta.findProperty")}</button>
                 </div>
               </div>
             ) : (
@@ -249,12 +252,19 @@ function FiltersPanel({
 function Group({ title, children, defaultOpen = false }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="card-surface overflow-hidden">
-      <button onClick={() => setOpen(!open)} className="flex w-full items-center justify-between px-4 py-3 text-sm font-bold text-primary">
+    <div className="rounded-xl border border-border/80 bg-card shadow-sm transition-all duration-300">
+      <button 
+        onClick={() => setOpen(!open)} 
+        className="flex w-full items-center justify-between px-5 py-4 text-sm font-extrabold tracking-wide text-primary hover:bg-secondary/50 rounded-xl transition-colors"
+      >
         {title}
-        <ChevronDown className={`h-4 w-4 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
       </button>
-      {open && <div className="space-y-4 border-t border-border px-4 pb-4 pt-4">{children}</div>}
+      <div className={`grid transition-all duration-300 ease-in-out ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+        <div className="overflow-hidden">
+          <div className="space-y-4 px-5 pb-5 pt-1">{children}</div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -270,8 +280,10 @@ function Toggle({ active, onClick, children }: { active: boolean; onClick: () =>
   return (
     <button
       onClick={onClick}
-      className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${
-        active ? "border-[hsl(var(--teal))] bg-[hsl(var(--teal))] text-white" : "border-border bg-card hover:border-primary/40"
+      className={`rounded-lg border px-3 py-2 text-[13px] font-semibold transition-all active:scale-95 shadow-sm ${
+        active 
+          ? "border-[hsl(var(--teal))] bg-[hsl(var(--teal))] text-white shadow-[hsl(var(--teal))]/20" 
+          : "border-border bg-card text-foreground/80 hover:border-primary/40 hover:bg-secondary/50 hover:text-foreground"
       }`}
     >
       {children}
@@ -316,12 +328,12 @@ function applyFilters(f: Filters, sort: SortKey) {
   return items;
 }
 
-function buildChips(f: Filters, t: (k: string, v?: any) => string) {
+function buildChips(f: Filters, t: (k: string, v?: Record<string, string | number>) => string) {
   const chips: { id: string; label: string; remove: Partial<Filters> }[] = [];
   if (f.deal) chips.push({ id: "deal", label: t(`deal.${f.deal}`), remove: { deal: undefined } });
   if (f.type) chips.push({ id: "type", label: t(`ptype.${f.type}`), remove: { type: undefined } });
   f.districts.forEach((d) => chips.push({ id: `d-${d}`, label: t(`d.${d}`), remove: { districts: f.districts.filter((x) => x !== d) } }));
-  if (f.rooms !== undefined) chips.push({ id: "rooms", label: `${f.rooms === 0 ? "Studio" : f.rooms === 4 ? "4+" : f.rooms} ${t("search.rooms").toLowerCase()}`, remove: { rooms: undefined } });
+  if (f.rooms !== undefined) chips.push({ id: "rooms", label: `${f.rooms === 0 ? t("ma.studio") : f.rooms === 4 ? "4+" : f.rooms} ${t("search.rooms").toLowerCase()}`, remove: { rooms: undefined } });
   if (f.priceMin !== undefined) chips.push({ id: "pmin", label: `≥ €${f.priceMin.toLocaleString()}`, remove: { priceMin: undefined } });
   if (f.priceMax !== undefined) chips.push({ id: "pmax", label: `≤ €${f.priceMax.toLocaleString()}`, remove: { priceMax: undefined } });
   f.features.forEach((ft) => chips.push({ id: `f-${ft}`, label: ft === "newBuild" ? t("badge.newBuild") : t(`feat.${ft}`), remove: { features: f.features.filter((x) => x !== ft) } }));

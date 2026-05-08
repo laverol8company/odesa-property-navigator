@@ -21,7 +21,7 @@ export default function Header() {
 
   const links = [
     { to: "/properties", label: t("nav.properties") },
-    { to: "/match", label: t("nav.match"), action: () => openAssistant() },
+    { to: "/#match", label: t("nav.match"), action: () => openAssistant() },
     { to: "/sell", label: t("nav.sell") },
     { to: "/about", label: t("nav.about") },
     { to: "/contact", label: t("nav.contact") },
@@ -36,16 +36,16 @@ export default function Header() {
       <div className="container mx-auto container-px flex h-16 items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2 font-display text-base font-bold tracking-tight text-primary">
           <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">G</span>
-          <span className="hidden sm:inline">General Real Estate</span>
+          <span className="hidden sm:inline whitespace-nowrap">General Real Estate</span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-2">
           {links.map((l) =>
             l.action ? (
               <button
                 key={l.to}
                 onClick={l.action}
-                className="rounded-md px-3 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-secondary hover:text-foreground"
+                className="relative px-3 py-2 text-sm font-semibold text-foreground/80 transition-colors whitespace-nowrap hover:text-primary after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:w-0 after:-translate-x-1/2 after:rounded-full after:bg-[hsl(var(--gold))] after:transition-all hover:after:w-4/5"
               >
                 {l.label}
               </button>
@@ -54,8 +54,8 @@ export default function Header() {
                 key={l.to}
                 to={l.to}
                 className={({ isActive }) =>
-                  `rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-secondary ${
-                    isActive ? "text-primary" : "text-foreground/80 hover:text-foreground"
+                  `relative px-3 py-2 text-sm font-semibold transition-colors whitespace-nowrap after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:-translate-x-1/2 after:rounded-full after:bg-[hsl(var(--gold))] after:transition-all ${
+                    isActive ? "text-primary after:w-4/5" : "text-foreground/80 hover:text-primary after:w-0 hover:after:w-4/5"
                   }`
                 }
               >
@@ -65,16 +65,16 @@ export default function Header() {
           )}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden xl:flex items-center gap-3">
           <LangSwitcher locale={locale} setLocale={setLocale} />
-          <button onClick={openAssistant} className="btn-primary">
+          <button onClick={openAssistant} className="btn-primary whitespace-nowrap">
             <Search className="h-4 w-4" /> {t("cta.findProperty")}
           </button>
         </div>
 
         <button
           aria-label="Menu"
-          className="lg:hidden rounded-md p-2 text-foreground hover:bg-secondary"
+          className="xl:hidden rounded-md p-2 text-foreground hover:bg-secondary"
           onClick={() => setMobileOpen(true)}
         >
           <Menu className="h-6 w-6" />
@@ -82,23 +82,23 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 bg-background animate-fade-in-fast lg:hidden">
-          <div className="container mx-auto container-px flex h-16 items-center justify-between">
-            <Link to="/" className="flex items-center gap-2 font-display font-bold text-primary">
+        <div className="fixed inset-0 z-50 bg-background/95 backdrop-blur-lg animate-fade-in-fast xl:hidden flex flex-col">
+          <div className="container mx-auto container-px flex h-16 items-center justify-between border-b border-border/50">
+            <Link to="/" className="flex items-center gap-2 font-display text-base font-bold tracking-tight text-primary">
               <span className="grid h-9 w-9 place-items-center rounded-md bg-primary text-primary-foreground">G</span>
               <span>General Real Estate</span>
             </Link>
-            <button aria-label={t("cta.close")} className="rounded-md p-2 hover:bg-secondary" onClick={() => setMobileOpen(false)}>
+            <button aria-label={t("cta.close")} className="rounded-full p-2 text-foreground/80 transition-colors hover:bg-secondary hover:text-foreground" onClick={() => setMobileOpen(false)}>
               <X className="h-6 w-6" />
             </button>
           </div>
-          <div className="container mx-auto container-px flex flex-col gap-1 pt-4">
+          <div className="container mx-auto container-px flex flex-1 flex-col gap-2 overflow-y-auto py-8">
             {links.map((l) =>
               l.action ? (
                 <button
                   key={l.to}
                   onClick={() => { setMobileOpen(false); l.action!(); }}
-                  className="rounded-md px-3 py-4 text-left text-lg font-medium text-foreground hover:bg-secondary"
+                  className="rounded-xl px-4 py-4 text-left text-xl font-semibold text-primary transition-colors hover:bg-secondary active:scale-[0.98]"
                 >
                   {l.label}
                 </button>
@@ -106,21 +106,28 @@ export default function Header() {
                 <NavLink
                   key={l.to}
                   to={l.to}
-                  className="rounded-md px-3 py-4 text-lg font-medium text-foreground hover:bg-secondary"
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    `rounded-xl px-4 py-4 text-xl font-semibold transition-colors active:scale-[0.98] ${
+                      isActive ? "bg-primary/5 text-primary" : "text-primary/80 hover:bg-secondary hover:text-primary"
+                    }`
+                  }
                 >
                   {l.label}
                 </NavLink>
               )
             )}
-            <div className="mt-4 flex items-center gap-2 px-3">
+            <div className="mt-8 mb-4 px-4">
               <LangSwitcher locale={locale} setLocale={setLocale} />
             </div>
-            <button
-              onClick={() => { setMobileOpen(false); openAssistant(); }}
-              className="btn-primary mt-6 w-full"
-            >
-              <Search className="h-4 w-4" /> {t("cta.findProperty")}
-            </button>
+            <div className="mt-auto pb-8 pt-4 px-4">
+              <button
+                onClick={() => { setMobileOpen(false); openAssistant(); }}
+                className="btn-primary w-full py-4 text-base shadow-md whitespace-nowrap"
+              >
+                <Search className="h-5 w-5" /> {t("cta.findProperty")}
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -128,20 +135,35 @@ export default function Header() {
   );
 }
 
+const LOCALE_FLAG_CODES: Record<string, string> = {
+  uk: "ua",
+  en: "gb",
+  ro: "ro",
+};
+
 function LangSwitcher({ locale, setLocale }: { locale: Locale; setLocale: (l: Locale) => void }) {
   return (
-    <div className="inline-flex items-center gap-0.5 rounded-md border border-border bg-card p-0.5">
-      <Globe className="ml-1.5 h-3.5 w-3.5 text-muted-foreground" />
+    <div className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-card/80 p-1 shadow-sm backdrop-blur-sm">
       {LOCALES.map((l) => (
         <button
           key={l.code}
           onClick={() => setLocale(l.code)}
           aria-label={`${l.label} language`}
-          className={`rounded px-2 py-1 text-xs font-semibold transition-colors ${
-            locale === l.code ? "bg-primary text-primary-foreground" : "text-foreground/70 hover:bg-secondary"
+          className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+            locale === l.code
+              ? "bg-primary text-primary-foreground shadow-md scale-100"
+              : "text-foreground/70 hover:bg-secondary hover:text-foreground hover:scale-105"
           }`}
         >
-          {l.label}
+          <img
+            src={`https://flagcdn.com/20x15/${LOCALE_FLAG_CODES[l.code]}.png`}
+            srcSet={`https://flagcdn.com/40x30/${LOCALE_FLAG_CODES[l.code]}.png 2x`}
+            width={20}
+            height={15}
+            alt={l.label}
+            className="rounded-[2px] object-cover shadow-sm"
+          />
+          <span className="tracking-wide whitespace-nowrap">{l.label}</span>
         </button>
       ))}
     </div>

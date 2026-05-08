@@ -92,7 +92,7 @@ export default function PropertyDetail() {
               <dl className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
                 <KV k={t("det.dealLabel")} v={t(`deal.${p.deal}`)} />
                 <KV k={t("det.typeLabel")} v={t(`ptype.${p.type}`)} />
-                <KV k={t("det.roomsLabel")} v={p.rooms === 0 ? "Studio" : String(p.rooms)} />
+                <KV k={t("det.roomsLabel")} v={p.rooms === 0 ? t("ma.studio") : String(p.rooms)} />
                 <KV k={t("det.areaLabel")} v={`${p.area} m²`} />
                 {p.floor !== undefined && <KV k={t("det.floorLabel")} v={`${p.floor}/${p.totalFloors ?? "-"}`} />}
                 <KV k={t("det.priceLabel")} v={formatPrice(p, locale)} />
@@ -129,7 +129,7 @@ export default function PropertyDetail() {
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("det.priceLabel")}</p>
               <p className="mt-1 font-display text-2xl font-bold text-primary">{formatPrice(p, locale)}</p>
               <div className="mt-4 grid grid-cols-3 gap-3 border-t border-border pt-4 text-xs">
-                <span className="inline-flex flex-col items-center gap-1"><Bed className="h-4 w-4 text-[hsl(var(--teal))]" /> {p.rooms === 0 ? "Studio" : p.rooms}</span>
+                <span className="inline-flex flex-col items-center gap-1"><Bed className="h-4 w-4 text-[hsl(var(--teal))]" /> {p.rooms === 0 ? t("ma.studio") : p.rooms}</span>
                 <span className="inline-flex flex-col items-center gap-1"><Maximize className="h-4 w-4 text-[hsl(var(--teal))]" /> {p.area} m²</span>
                 {p.floor !== undefined && <span className="inline-flex flex-col items-center gap-1"><Building2 className="h-4 w-4 text-[hsl(var(--teal))]" /> {p.floor}/{p.totalFloors ?? "-"}</span>}
               </div>
