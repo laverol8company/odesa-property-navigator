@@ -39,13 +39,13 @@ export default function Header() {
           <span className="hidden sm:inline whitespace-nowrap">General Real Estate</span>
         </Link>
 
-        <nav className="hidden xl:flex items-center gap-1 min-w-0 flex-shrink">
+        <nav className="hidden xl:flex items-center gap-1 min-w-0 flex-shrink overflow-hidden">
           {links.map((l) =>
             l.action ? (
               <button
                 key={l.to}
                 onClick={l.action}
-                className="relative px-3 py-2 text-sm font-semibold text-foreground/80 transition-colors whitespace-nowrap hover:text-primary after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:w-0 after:-translate-x-1/2 after:rounded-full after:bg-[hsl(var(--gold))] after:transition-all hover:after:w-4/5"
+                className="relative px-2 py-2 text-[13px] font-semibold text-foreground/80 transition-colors whitespace-nowrap hover:text-primary after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:w-0 after:-translate-x-1/2 after:rounded-full after:bg-[hsl(var(--gold))] after:transition-all hover:after:w-4/5"
               >
                 {l.label}
               </button>
@@ -54,7 +54,7 @@ export default function Header() {
                 key={l.to}
                 to={l.to}
                 className={({ isActive }) =>
-                  `relative px-3 py-2 text-sm font-semibold transition-colors whitespace-nowrap after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:-translate-x-1/2 after:rounded-full after:bg-[hsl(var(--gold))] after:transition-all ${
+                  `relative px-2 py-2 text-[13px] font-semibold transition-colors whitespace-nowrap after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:-translate-x-1/2 after:rounded-full after:bg-[hsl(var(--gold))] after:transition-all ${
                     isActive ? "text-primary after:w-4/5" : "text-foreground/80 hover:text-primary after:w-0 hover:after:w-4/5"
                   }`
                 }
